@@ -1,0 +1,98 @@
+{
+  "kubeDeployTag": "v3.7",
+  "namespaceName": "quality",
+  "appName": "test-1pp",
+  "hpa": {
+    "minPods": 1,
+    "maxPods": 1,
+    "includes": {
+      "podMemoryUtilization": {
+        "averagePct": 0.8
+      },
+      "podCPUUtilization": {
+        "averagePct": 1
+      }
+    }
+  },
+  "deployment": {
+    "imageSpec": [
+      {
+        "name": "test-1pp",
+        "image": "$IMAGE",
+        "probe": {
+          "healthCheckPath": "/healthy",
+          "healthCheckPort": 8080,
+          "initialDelaySeconds": 120,
+          "periodSeconds": 3,
+          "timeoutSeconds": 3
+        },
+        "resources": {
+          "limits": {
+            "cpu": "2500m",
+            "memory": "4Gi"
+          },
+          "requests": {
+            "cpu": "2500m",
+            "memory": "4Gi"
+          }
+        },
+        "ports": [
+          {
+            "name": "metrics",
+            "containerPort": 8080
+          }
+        ],
+        "env": [
+          {
+            "name": "AppName",
+            "value": "test-1pp"
+          }
+        ],
+        "terminationGracePeriodSeconds": 70,
+        "dnsPolicy": "Default"
+      }
+    ]
+  },
+  "serviceMonitor": {
+    "port": "metrics",
+    "metricsPath": "/metrics"
+  },
+  "services": [
+    {
+      "name": "test-1pp",
+      "type": "LoadBalancer",
+      "loadBalancerSourceRanges": "0.0.0.0/0",
+      "loadBalancerType": "clb",
+      "ports": [
+        {
+          "name": "http",
+          "port": 80,
+          "targetPort": 8080
+        },
+        {
+          "name": "https",
+          "port": 443,
+          "targetPort": 8080
+        },
+        {
+          "name": "metrics",
+          "port": 4001,
+          "targetPort": 8080
+        }
+      ],
+      "labels": {
+        "micrometer-prometheus": "enabled"
+      },
+      "annotations": {
+        "external-dns.alpha.kubernetes.io/ttl": "60",
+        "service.beta.kubernetes.io/aws-load-balancer-backend-protocol": "http",
+        "external-dns.alpha.kubernetes.io/hostname": "qe-aut-internal.pp.hotstar-labs.com",
+        "service.beta.kubernetes.io/aws-load-balancer-extra-security-groups": "sg-00830b236350a726a,$LB_SECURITY_GROUP",
+        "service.beta.kubernetes.io/aws-load-balancer-additional-resource-tags": "Owner=qa@hotstar.com,CostCenter=India,Product=Hotstar,Team=Quality,Stage=pp,Name=quality/test-1pp",
+        "service.beta.kubernetes.io/aws-load-balancer-internal": "true",
+        "service.beta.kubernetes.io/aws-load-balancer-ssl-cert": "$CLUSTER_CERT_ARN",
+        "service.beta.kubernetes.io/aws-load-balancer-ssl-ports": "443"
+      }
+    }
+  ]
+}
