@@ -1,4 +1,4 @@
 FROM <data.aws>
 EXPOSE 8080:8080
-COPY build/libs/hello-hotstar-boilerplate.jar hello-hotstar-boilerplate.jar
+COPY target/hello-hotstar-boilerplate-1.0-SNAPSHOT-jar-with-dependencies.jar hello-hotstar-boilerplate.jar
 CMD java -jar hello-hotstar-boilerplate.jar
