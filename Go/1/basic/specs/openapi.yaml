@@ -1,0 +1,25 @@
+openapi: 3.0.0
+info:
+  title: Hello Hotstar service
+  version: 1.0.0
+  contact:
+    name: Hotstar builder tools team
+    email: your_email@hotstar.com
+  description: API for hello hotstar service
+servers:
+  - url: "http://localhost:8080"
+paths:
+  /healthy:
+    get:
+      summary: The demo API for onboarding
+      tags: [ ]
+      responses:
+        "200":
+          description: Hello hotstar bootcamp example
+          content:
+            application/json:
+              examples:
+                example-1:
+                  value:
+                    status: Welcome to hello! hotstar bootcamp
+      description: The demo API for onboarding
