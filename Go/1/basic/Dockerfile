@@ -1,4 +1,4 @@
-FROM 084690408984.dkr.ecr.us-east-1.amazonaws.com/go-1.14.2:v59.0
+FROM golang:1.14-alpine as build
 
 WORKDIR /app
 
