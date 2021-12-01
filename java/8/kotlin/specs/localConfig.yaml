@@ -1,0 +1,35 @@
+### headers used here will be attached to each and every request
+headers:
+  header1: value1
+  header2: value2
+### url forwarding will forward each request made to the url to its following value
+### if set to localhost it will point towards themockserver
+urlForwarding:
+  www.eg2.com: localhost
+### port forwarding is support to point towards mockservers url
+portForwarding: 5000
+
+### response body data insertion
+### first value will be key and second will be value in response body
+#responseBodyAddition:
+#  127.0.0.1:
+#    body:
+#      - - 'sample1'
+#        - 'sample2'
+#    header:
+#      - - 'sample1'
+#        - 'sample2'
+
+
+global:
+  - check: request.header.Content-Type == application/x-protobuf
+    result:
+      - key: responseBodyFormat
+        value: protobuff
+  - check: request.header.Content-Type == application/json
+    result:
+      - key: requestBodyFormat
+        value: json
+
+
+#### use the below sectio to update your mocks via config
