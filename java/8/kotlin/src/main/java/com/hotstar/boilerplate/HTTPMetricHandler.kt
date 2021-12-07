@@ -31,7 +31,7 @@ class HTTPMetricHandler(private val registry: CollectorRegistry) : HttpHandler {
         val response = response.get()
         response.reset()
         val osw = OutputStreamWriter(response, Charset.forName("UTF-8"))
-        if ("/-/healthy" == contextPath) {
+        if ("/healthy" == contextPath) {
             osw.write(HEALTHY_RESPONSE)
         } else {
             val contentType = TextFormat.chooseContentType(t.requestHeaders.getFirst("Accept"))
