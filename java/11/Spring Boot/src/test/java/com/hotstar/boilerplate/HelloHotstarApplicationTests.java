@@ -1,13 +1,22 @@
 package com.hotstar.boilerplate;
 
+
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import static org.assertj.core.api.Assertions.assertThat;
+
 
 @SpringBootTest
 class HelloHotstarApplicationTests {
 
+    @Autowired
+     HelloHotstarApplication helloHotstarApplication;
+
     @Test
-    void contextLoads() {
+    void getSuccess() {
+       assertThat(helloHotstarApplication.healthCheck().getStatusCode().is2xxSuccessful());
+
     }
 
 }
