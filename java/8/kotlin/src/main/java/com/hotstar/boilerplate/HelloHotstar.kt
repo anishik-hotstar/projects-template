@@ -42,7 +42,7 @@ fun main(){
     DefaultExports.initialize()
     val metricsHandler = HTTPMetricHandler(CollectorRegistry.defaultRegistry)
     server.createContext("/metrics", metricsHandler)
-    server.createContext("/-/healthy", metricsHandler)
+    server.createContext("/healthy", metricsHandler)
 
     System.out.println("Starting server on port 8080")
     server.start()
